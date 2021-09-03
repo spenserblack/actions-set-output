@@ -1,5 +1,7 @@
 # actions-set-output
 
+[![CI](https://github.com/spenserblack/actions-set-output/actions/workflows/ci.yml/badge.svg)](https://github.com/spenserblack/actions-set-output/actions/workflows/ci.yml)
+
 I always forget how to set output in steps, so this is a helper action for setting inputs.
 There's probably several actions like this already.
 
