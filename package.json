@@ -1,0 +1,33 @@
+{
+  "name": "actions-set-output",
+  "version": "0.1.0",
+  "description": "Helper for setting outputs",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "ncc build ./src/index.ts --minify",
+    "build:typescript": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spenserblack/actions-set-output.git"
+  },
+  "keywords": [
+    "actions",
+    "github"
+  ],
+  "author": "Spenser Black <spenserblack01@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/spenserblack/actions-set-output/issues"
+  },
+  "homepage": "https://github.com/spenserblack/actions-set-output#readme",
+  "dependencies": {
+    "@actions/core": "^1.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.7.10",
+    "@vercel/ncc": "^0.30.0",
+    "typescript": "^4.4.2"
+  }
+}
