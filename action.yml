@@ -1,5 +1,8 @@
 name: Set Output
 description: An action to simplify setting outputs
+branding:
+  icon: list
+  color: white
 runs:
   using: node12
   main: dist/index.js
