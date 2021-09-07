@@ -18,7 +18,7 @@ const results = parsed.map(({ name, ...attrs }) => {
     listeners: {
       stdout: (data: Buffer) => {
         core.info(`Setting ${name}`);
-        core.setOutput(name, data.toString());
+        core.setOutput(name, data.toString().replace(/\n$/, ''));
       },
     },
   });
