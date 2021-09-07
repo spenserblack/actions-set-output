@@ -17,7 +17,7 @@ export const parseLine = (line: string): Hardcoded | Command => {
 
   if (commandMatch) {
     const [command, ...args] = commandMatch[1].split(' ');
-    return { name, command, args:  args.length ? args : null };
+    return { name, command, args:  args.length ? args : undefined };
   }
   return { name, value };
 };

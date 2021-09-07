@@ -11,5 +11,5 @@ test('command is detected', () => {
   });
 });
 test('no command args means Command.args not defined', () => {
-  expect(parseLine('USER=$(whoami)').args).toBeNull();
+  expect(parseLine('USER=$(whoami)').args).toBeUndefined();
 });
