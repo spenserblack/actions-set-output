@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "nyc jest",
-    "build": "ncc build ./src/index.ts --minify",
+    "build": "ncc build ./src/index.ts",
     "build:typescript": "tsc"
   },
   "repository": {
