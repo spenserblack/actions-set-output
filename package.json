@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
+    "test:coverage": "nyc jest",
     "build": "ncc build ./src/index.ts --minify",
     "build:typescript": "tsc"
   },
@@ -33,6 +34,7 @@
     "@types/node": "^16.7.10",
     "@vercel/ncc": "^0.30.0",
     "jest": "^27.1.0",
+    "nyc": "^15.1.0",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
   }
