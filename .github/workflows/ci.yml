@@ -32,3 +32,19 @@ jobs:
       - run: npm ci
       - name: Test
         run: npm test
+      - uses: ./
+        id: output-step
+        with:
+          variables: |
+            FOO=BAR
+            HELLO=$(echo WORLD)
+      - name: Check FOO
+        run: |
+          echo "FOO is '${{ steps.output-step.outputs.FOO }}'"
+          exit 1
+        if: ${{ steps.output-step.outputs.FOO != 'BAR' }}
+      - name: Check HELLO
+        run: |
+          echo "HELLO is '${{ steps.output-step.outputs.HELLO }}'"
+          exit 1
+        if: ${{ steps.output-step.outputs.HELLO != 'WORLD' }}
