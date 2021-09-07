@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/spenserblack/actions-set-output#readme",
   "dependencies": {
-    "@actions/core": "^1.5.0"
+    "@actions/core": "^1.5.0",
+    "@actions/exec": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.4",
