@@ -2,7 +2,7 @@ name: Set Output
 description: An action to simplify setting outputs
 runs:
   using: node12
-  main: index.js
+  main: dist/index.js
 inputs:
   variables:
     description: The variables that you want to define, separated by a newline
