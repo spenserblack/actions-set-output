@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "nyc jest",
+    "coverage:report": "nyc report --reporter=lcov && codecov",
     "build": "ncc build ./src/index.ts",
     "build:typescript": "tsc"
   },
@@ -34,6 +35,7 @@
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.10",
     "@vercel/ncc": "^0.30.0",
+    "codecov": "^3.8.3",
     "jest": "^27.1.0",
     "nyc": "^15.1.0",
     "ts-node": "^10.2.1",
