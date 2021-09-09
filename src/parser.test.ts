@@ -13,3 +13,18 @@ test('command is detected', () => {
 test('no command args means Command.args not defined', () => {
   expect(parseLine('USER=$(whoami)').args).toBeUndefined();
 });
+test('command args do not contain single quotes', () => {
+  const { args } = parseLine("GREETING=$(echo 'Hello')");
+  expect(args).toHaveLength(1);
+  expect(args[0]).toEqual('Hello');
+});
+test('command args do not contain double quotes', () => {
+  const { args } = parseLine('GREETING=$(echo "Hello")');
+  expect(args).toHaveLength(1);
+  expect(args[0]).toEqual('Hello');
+});
+test('quoted argument is one argument', () => {
+  const { args } = parseLine('GREETING=$(echo "Hello World")');
+  expect(args).toHaveLength(1);
+  expect(args[0]).toEqual('Hello World');
+});
