@@ -42,6 +42,7 @@ jobs:
           variables: |
             FOO=BAR
             HELLO=$(echo WORLD)
+            QUOTES=$(echo 'quoted')
       - name: Check FOO
         run: |
           echo "FOO is '${{ steps.output-step.outputs.FOO }}'"
@@ -52,3 +53,8 @@ jobs:
           echo "HELLO is '${{ steps.output-step.outputs.HELLO }}'"
           exit 1
         if: ${{ steps.output-step.outputs.HELLO != 'WORLD' }}
+      - name: Check QUOTES
+        run: |
+          echo "QUOTES is '${{ steps.output-step.outputs.QUOTES }}'"
+          exit 1
+        if: ${{ steps.output-step.outputs.QUOTES != 'quoted' }}
