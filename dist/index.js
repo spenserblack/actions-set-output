@@ -1894,8 +1894,8 @@ var parseLine = function (line) {
     var _a = line.split('='), name = _a[0], value = _a[1];
     var commandMatch = value.match(/\$\((.+)\)$/);
     if (commandMatch) {
-        var _b = commandMatch[1].split(' '), command = _b[0], args = _b.slice(1);
-        return { name: name, command: command, args: args.length ? args : undefined };
+        var command = commandMatch[1];
+        return { name: name, command: command };
     }
     return { name: name, value: value };
 };
@@ -1926,7 +1926,7 @@ var results = parsed.map(function (_a) {
         core.setOutput(name, attrs.value);
         return;
     }
-    return (0,exec.exec)(attrs.command, attrs.args, {
+    return (0,exec.exec)(attrs.command, [], {
         listeners: {
             stdout: function (data) {
                 core.info("Setting " + name);
