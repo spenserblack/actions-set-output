@@ -2117,17 +2117,17 @@ var exec = __nccwpck_require__(514);
 var shell_quote = __nccwpck_require__(29);
 ;// CONCATENATED MODULE: ./src/parser.ts
 
-var parseLine = function (line) {
-    var _a = line.split('='), name = _a[0], value = _a[1];
-    var commandMatch = value.match(/\$\((?<command>\w+)(?:\s(?<args>.+)?)?\)$/);
+const parseLine = (line) => {
+    const [name, value] = line.split('=');
+    const commandMatch = value.match(/\$\((?<command>\w+)(?:\s(?<args>.+)?)?\)$/);
     if (commandMatch != null) {
-        var _b = commandMatch.groups, command = _b.command, allArgs = _b.args;
-        var args = allArgs ?
-            (0,shell_quote/* parse */.Q)(allArgs).filter(function (arg) { return typeof arg === 'string'; })
-            : undefined;
-        return { name: name, command: command, args: args };
+        const { groups: { command, args: allArgs } } = commandMatch;
+        const args = allArgs ?
+            (0,shell_quote/* parse */.Q)(allArgs).filter((arg) => typeof arg === 'string')
+            : [];
+        return { name, command, args };
     }
-    return { name: name, value: value };
+    return { name, value };
 };
 
 ;// CONCATENATED MODULE: ./src/index.ts
@@ -2145,21 +2145,21 @@ var __rest = (undefined && undefined.__rest) || function (s, e) {
 
 
 
-var parsed = core.getInput('variables')
+const parsed = core.getInput('variables')
     .split('\n')
-    .filter(function (line) { return line.length; })
+    .filter((line) => line.length)
     .map(parseLine);
-var results = parsed.map(function (_a) {
-    var name = _a.name, attrs = __rest(_a, ["name"]);
+const results = parsed.map((_a) => {
+    var { name } = _a, attrs = __rest(_a, ["name"]);
     if ('value' in attrs) {
-        core.info("Setting " + name);
+        core.info(`Setting ${name}`);
         core.setOutput(name, attrs.value);
         return;
     }
     return (0,exec.exec)(attrs.command, attrs.args, {
         listeners: {
-            stdout: function (data) {
-                core.info("Setting " + name);
+            stdout: (data) => {
+                core.info(`Setting ${name}`);
                 core.setOutput(name, data.toString().replace(/\n$/, ''));
             },
         },
