@@ -8,7 +8,6 @@ export interface Hardcoded extends Variable {
 
 export interface Command extends Variable {
   command: string;
-  args?: string[];
 }
 
 export const parseLine = (line: string): Hardcoded | Command => {
@@ -16,8 +15,8 @@ export const parseLine = (line: string): Hardcoded | Command => {
   const commandMatch = value.match(/\$\((.+)\)$/);
 
   if (commandMatch) {
-    const [command, ...args] = commandMatch[1].split(' ');
-    return { name, command, args:  args.length ? args : undefined };
+    const command = commandMatch[1];
+    return { name, command };
   }
   return { name, value };
 };

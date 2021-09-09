@@ -6,10 +6,6 @@ test('hardcoded value is detected', () => {
 test('command is detected', () => {
   expect(parseLine('VERSION=$(git describe --tags)')).toEqual({
     name: 'VERSION',
-    command: 'git',
-    args: ['describe', '--tags'],
+    command: 'git describe --tags',
   });
-});
-test('no command args means Command.args not defined', () => {
-  expect(parseLine('USER=$(whoami)').args).toBeUndefined();
 });
