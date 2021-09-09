@@ -25,7 +25,8 @@
   "homepage": "https://github.com/spenserblack/actions-set-output#readme",
   "dependencies": {
     "@actions/core": "^1.5.0",
-    "@actions/exec": "^1.1.0"
+    "@actions/exec": "^1.1.0",
+    "shell-quote": "^1.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.15.4",
@@ -33,6 +34,7 @@
     "@babel/preset-typescript": "^7.15.0",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.10",
+    "@types/shell-quote": "^1.7.1",
     "@vercel/ncc": "^0.30.0",
     "jest": "^27.1.0",
     "ts-node": "^10.2.1",
