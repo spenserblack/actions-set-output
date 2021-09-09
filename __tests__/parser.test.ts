@@ -1,4 +1,4 @@
-import { parseLine } from './parser';
+import { parseLine } from '../src/parser';
 
 test('hardcoded value is detected', () => {
   expect(parseLine('FOO=BAR')).toEqual({ name: 'FOO', value: 'BAR' });
