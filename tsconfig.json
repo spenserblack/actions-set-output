@@ -5,16 +5,11 @@
     "rootDir": "./src",
     "moduleResolution": "node",
     "baseUrl": "./",
-    "sourceMap": true,
     "outDir": "./dist",
     "removeComments": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "alwaysStrict": true,
     "noUnusedLocals": true
   },
   "exclude": [
