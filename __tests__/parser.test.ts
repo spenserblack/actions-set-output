@@ -1,4 +1,4 @@
-import { parseLine } from './parser';
+import { parseLine } from '../src/parser';
 
 test('hardcoded value is detected', () => {
   expect(parseLine('FOO=BAR')).toEqual({ name: 'FOO', value: 'BAR' });
@@ -11,7 +11,7 @@ test('command is detected', () => {
   });
 });
 test('no command args means Command.args not defined', () => {
-  expect(parseLine('USER=$(whoami)').args).toBeUndefined();
+  expect(parseLine('USER=$(whoami)').args).toHaveLength(0);
 });
 test('command args do not contain single quotes', () => {
   const { args } = parseLine("GREETING=$(echo 'Hello')");

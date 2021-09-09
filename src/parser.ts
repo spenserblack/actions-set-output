@@ -10,7 +10,7 @@ export interface Hardcoded extends Variable {
 
 export interface Command extends Variable {
   command: string;
-  args?: string[];
+  args: string[];
 }
 
 export const parseLine = (line: string): Hardcoded | Command => {
@@ -20,9 +20,9 @@ export const parseLine = (line: string): Hardcoded | Command => {
   if (commandMatch != null) {
     const { groups: { command, args: allArgs } }
       = commandMatch as Required<Pick<typeof commandMatch, 'groups'>>;
-    const args: string[] | undefined = allArgs ?
+    const args: string[] = allArgs ?
       parseArgs(allArgs).filter((arg): arg is string => typeof arg === 'string')
-      : undefined;
+      : [];
 
     return { name, command, args };
   }
