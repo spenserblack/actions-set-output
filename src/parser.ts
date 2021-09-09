@@ -1,3 +1,5 @@
+import { parse as parseArgs } from 'shell-quote';
+
 export interface Variable {
   name: string;
 }
@@ -13,11 +15,16 @@ export interface Command extends Variable {
 
 export const parseLine = (line: string): Hardcoded | Command => {
   const [name, value] = line.split('=');
-  const commandMatch = value.match(/\$\((.+)\)$/);
+  const commandMatch = value.match(/\$\((?<command>\w+)(?:\s(?<args>.+)?)?\)$/);
 
-  if (commandMatch) {
-    const [command, ...args] = commandMatch[1].split(' ');
-    return { name, command, args:  args.length ? args : undefined };
+  if (commandMatch != null) {
+    const { groups: { command, args: allArgs } }
+      = commandMatch as Required<Pick<typeof commandMatch, 'groups'>>;
+    const args: string[] | undefined = allArgs ?
+      parseArgs(allArgs).filter((arg): arg is string => typeof arg === 'string')
+      : undefined;
+
+    return { name, command, args };
   }
   return { name, value };
 };
