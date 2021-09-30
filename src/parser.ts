@@ -22,18 +22,48 @@ export interface PipedCommand extends Command {
   into: Into;
 }
 
+export const parseCommand = (varName: string, allArgs: string): Command | PipedCommand => {
+  const args = parseArgs(allArgs);
+  let arg = args.shift();
+
+  if (typeof arg === 'undefined' || typeof arg !== 'string') {
+    throw new Error('No base command provided');
+  }
+
+  const command: Command | PipedCommand = { name: varName, command: arg, args: [] };
+  let currentCommand: Command | PipedCommand | Into = command;
+
+  for (arg = args.shift(); typeof arg !== 'undefined'; arg = args.shift()) {
+    if (typeof arg !== 'string') {
+      const { op } = arg;
+      arg = args.shift();
+
+      if (typeof arg === 'undefined') {
+        continue;
+      }
+      if (op === '|') {
+        const into: Into = { command: arg, args: [] };
+        currentCommand.into = into;
+        currentCommand = currentCommand.into;
+      }
+      continue;
+    }
+    currentCommand.args.push(arg);
+  }
+
+  return command;
+};
+
 export const parseLine = (line: string): Hardcoded | Command | PipedCommand => {
   const [name, value] = line.split('=');
-  const commandMatch = value.match(/\$\((?<command>\w+)(?:\s(?<args>.+)?)?\)$/);
+  const commandMatch = value.match(/\$\((?<args>.+)\)$/);
 
-  if (commandMatch != null) {
-    const { groups: { command, args: allArgs } }
-      = commandMatch as Required<Pick<typeof commandMatch, 'groups'>>;
-    const args: string[] = allArgs ?
-      parseArgs(allArgs).filter((arg): arg is string => typeof arg === 'string')
-      : [];
-
-    return { name, command, args };
+  if (commandMatch == null) {
+    return { name, value };
   }
-  return { name, value };
+
+  const { groups: { args: allArgs } }
+    = commandMatch as Required<Pick<typeof commandMatch, 'groups'>>;
+
+  return parseCommand(name, allArgs);
 };
