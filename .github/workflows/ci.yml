@@ -43,6 +43,7 @@ jobs:
             FOO=BAR
             HELLO=$(echo WORLD)
             QUOTES=$(echo 'quoted')
+            WORD_COUNT=$(echo 'foo bar' | wc -w)
       - name: Check FOO
         run: |
           echo "FOO is '${{ steps.output-step.outputs.FOO }}'"
@@ -58,3 +59,8 @@ jobs:
           echo "QUOTES is '${{ steps.output-step.outputs.QUOTES }}'"
           exit 1
         if: ${{ steps.output-step.outputs.QUOTES != 'quoted' }}
+      - name: Check WORD_COUNT
+        run: |
+          echo "WORD_COUNT is '${{ steps.output-step.outputs.WORD_COUNT }}'"
+          exit 1
+        if: ${{ steps.output-step.outputs.WORD_COUNT != '2' }}
