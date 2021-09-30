@@ -39,7 +39,7 @@ export const parseCommand = (varName: string, allArgs: string): Command | PipedC
       arg = args.shift();
 
       if (typeof arg === 'undefined') {
-        continue;
+        throw new Error('Pipe with no following command');
       }
       if (op === '|') {
         const into: Into = { command: arg, args: [] };
