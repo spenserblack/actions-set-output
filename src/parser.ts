@@ -1,4 +1,8 @@
-import { parse as parseArgs } from 'shell-quote';
+import {
+  parse as parseArgs,
+  ControlOperator,
+  ParseEntry,
+} from 'shell-quote';
 
 export interface Variable {
   name: string;
@@ -22,6 +26,14 @@ export interface PipedCommand extends Command {
   into: Into;
 }
 
+const isOp = (arg: ParseEntry): arg is { op: ControlOperator } => {
+  return typeof arg !== 'string' && !('pattern' in arg);
+};
+
+const isArg = (arg: ParseEntry | undefined): arg is string => {
+  return typeof arg === 'string';
+};
+
 export const parseCommand = (varName: string, allArgs: string): Command | PipedCommand => {
   const args = parseArgs(allArgs);
   let arg = args.shift();
@@ -31,14 +43,18 @@ export const parseCommand = (varName: string, allArgs: string): Command | PipedC
   }
 
   const command: Command | PipedCommand = { name: varName, command: arg, args: [] };
-  let currentCommand: Command | PipedCommand | Into = command;
+  let currentCommand: PipedCommand | Into = command as PipedCommand;
 
   for (arg = args.shift(); typeof arg !== 'undefined'; arg = args.shift()) {
-    if (typeof arg !== 'string') {
+    if (isArg(arg)) {
+      currentCommand.args.push(arg);
+      continue;
+    }
+    if (isOp(arg)) {
       const { op } = arg;
       arg = args.shift();
 
-      if (typeof arg === 'undefined') {
+      if (!isArg(arg)) {
         throw new Error('Pipe with no following command');
       }
       if (op === '|') {
@@ -46,9 +62,7 @@ export const parseCommand = (varName: string, allArgs: string): Command | PipedC
         currentCommand.into = into;
         currentCommand = currentCommand.into;
       }
-      continue;
     }
-    currentCommand.args.push(arg);
   }
 
   return command;
