@@ -14,7 +14,7 @@ const results = parsed.map(({ name, ...attrs }) => {
     return;
   }
 
-  return exec(attrs.command, attrs.args, {
+  return exec('/bin/sh', ['-c', attrs.command], {
     listeners: {
       stdout: (data: Buffer) => {
         core.info(`Setting ${name}`);
