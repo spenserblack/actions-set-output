@@ -28,3 +28,16 @@ test('quoted argument is one argument', () => {
   expect(args).toHaveLength(1);
   expect(args[0]).toEqual('Hello World');
 });
+test('piped commands are detected', () => {
+  const result = parseLine('VALUE=$(echo "Hello World" | foo | wc -w)');
+  expect(result.command).toEqual('echo');
+  expect(result.args).toHaveLength(1);
+  expect(result.args[0]).toEqual('Hello World');
+  expect(result.into).toBeDefined();
+  expect(result.into.command).toEqual('foo');
+  expect(result.into.args).toHaveLength(0);
+  expect(result.into.into).toBeDefined();
+  expect(result.into.into.command).toEqual('wc');
+  expect(result.into.into.args).toHaveLength(1);
+  expect(result.into.into.args[0]).toEqual('-w');
+});
