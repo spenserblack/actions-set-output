@@ -34,6 +34,10 @@ const isArg = (arg: ParseEntry | undefined): arg is string => {
   return typeof arg === 'string';
 };
 
+export const isPipedCommand = <V extends Variable>(variable: V): variable is PipedCommand => (
+  'into' in variable
+);
+
 export const parseCommand = (varName: string, allArgs: string): Command | PipedCommand => {
   const args = parseArgs(allArgs);
   let arg = args.shift();
