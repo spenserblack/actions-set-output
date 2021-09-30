@@ -13,7 +13,16 @@ export interface Command extends Variable {
   args: string[];
 }
 
-export const parseLine = (line: string): Hardcoded | Command => {
+// A command without the variable name to save to.
+type RawCommand = Omit<Command, 'name'>;
+
+export type Into = RawCommand & { into?: RawCommand | null } ;
+
+export interface PipedCommand extends Command {
+  into: Into;
+}
+
+export const parseLine = (line: string): Hardcoded | Command | PipedCommand => {
   const [name, value] = line.split('=');
   const commandMatch = value.match(/\$\((?<command>\w+)(?:\s(?<args>.+)?)?\)$/);
 
