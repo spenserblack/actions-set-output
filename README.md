@@ -6,6 +6,9 @@
 I always forget how to set output in steps, so this is a helper action for setting outputs.
 There's probably several actions like this already.
 
+This action is a wrapper around the [dotenv gem](https://github.com/bkeepers/dotenv), so
+anything that would be valid in a `.env` file is valid for the `variables` input.
+
 ## Usage
 
 ```yaml
