@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'dotenv'
+
+if __FILE__ == $0
+  parsed = Dotenv::Parser.call ARGV.first
+  parsed.each do |output, value|
+    puts "::set-output name=#{output}::#{value}"
+  end
+end
