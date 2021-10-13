@@ -10,10 +10,10 @@ jobs:
   test-ubuntu-latest:
     runs-on: ubuntu-latest
     outputs:
-      FOO: ${{ steps.output-step.FOO }}
-      HELLO: ${{ steps.output-step.HELLO }}
-      QUOTES: ${{ steps.output-step.QUOTES }}
-      WORD_COUNT: ${{ steps.output-step.WORD_COUNT }}
+      FOO: ${{ steps.output-step.outputs.FOO }}
+      HELLO: ${{ steps.output-step.outputs.HELLO }}
+      QUOTES: ${{ steps.output-step.outputs.QUOTES }}
+      WORD_COUNT: ${{ steps.output-step.outputs.WORD_COUNT }}
 
     steps:
       - uses: actions/checkout@v2
