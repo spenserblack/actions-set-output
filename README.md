@@ -31,12 +31,15 @@ you can use the outputs from a Linux job in a Windows or MacOS job.
 jobs:
   make-outputs:
     runs-on: ubuntu-latest
+    outputs:
+      FOO: ${{ steps.output-step.outputs.FOO }}
+      VERSION: ${{ steps.output-step.outputs.VERSION }}
     steps:
       - uses: spenserblack/actions-set-output@<commit-ish>
         id: output-step
         with:
           variables: |
-            FO=BAR
+            FOO=BAR
             VERSION=$(git describe --tags)
   main-job:
     runs-on: ${{ matrix.os }}
@@ -45,6 +48,6 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
     steps:
-      - run: echo "FOO is ${{ needs.make-outputs.FOO }}"
-      - run: echo "version is ${{ needs.make-outputs.VERSION }}"
+      - run: echo "FOO is ${{ needs.make-outputs.outputs.FOO }}"
+      - run: echo "version is ${{ needs.make-outputs.outputs.VERSION }}"
 ```

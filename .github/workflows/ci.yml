@@ -56,6 +56,8 @@ jobs:
           - windows-latest
 
     steps:
+      - name: Show Outputs
+        run: echo "${{ toJSON(needs.test-ubuntu-latest.outputs) }}"
       - name: Check FOO
         run: |
           echo "FOO is '${{ needs.test-ubuntu-latest.outputs.FOO }}'"
