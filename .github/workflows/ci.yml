@@ -7,41 +7,16 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  test-ubuntu-latest:
     runs-on: ubuntu-latest
+    outputs:
+      FOO: ${{ steps.output-step.outputs.FOO }}
+      HELLO: ${{ steps.output-step.outputs.HELLO }}
+      QUOTES: ${{ steps.output-step.outputs.QUOTES }}
+      WORD_COUNT: ${{ steps.output-step.outputs.WORD_COUNT }}
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-          cache: yarn
-      - run: yarn install --frozen-lockfile
-      - name: Build
-        run: yarn build
-
-  test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 12
-          cache: yarn
-      - run: yarn install --frozen-lockfile
-      - name: Test and Generate Coverage
-        run: yarn test:coverage
-      - name: Upload Coverage
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
       - uses: ./
         id: output-step
         with:
@@ -70,3 +45,36 @@ jobs:
           echo "WORD_COUNT is '${{ steps.output-step.outputs.WORD_COUNT }}'"
           exit 1
         if: ${{ steps.output-step.outputs.WORD_COUNT != '2' }}
+
+  test-other-os:
+    needs: test-ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+          - windows-latest
+
+    steps:
+      - name: Show Outputs
+        run: echo "${{ toJSON(needs.test-ubuntu-latest.outputs) }}"
+      - name: Check FOO
+        run: |
+          echo "FOO is '${{ needs.test-ubuntu-latest.outputs.FOO }}'"
+          exit 1
+        if: ${{ needs.test-ubuntu-latest.outputs.FOO != 'BAR' }}
+      - name: Check HELLO
+        run: |
+          echo "HELLO is '${{ needs.test-ubuntu-latest.outputs.HELLO }}'"
+          exit 1
+        if: ${{ needs.test-ubuntu-latest.outputs.HELLO != 'WORLD' }}
+      - name: Check QUOTES
+        run: |
+          echo "QUOTES is '${{ needs.test-ubuntu-latest.outputs.QUOTES }}'"
+          exit 1
+        if: ${{ needs.test-ubuntu-latest.outputs.QUOTES != 'quoted' }}
+      - name: Check WORD_COUNT
+        run: |
+          echo "WORD_COUNT is '${{ needs.test-ubuntu-latest.outputs.WORD_COUNT }}'"
+          exit 1
+        if: ${{ needs.test-ubuntu-latest.outputs.WORD_COUNT != '2' }}
