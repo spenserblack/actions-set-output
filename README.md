@@ -21,3 +21,30 @@ anything that would be valid in a `.env` file is valid for the `variables` input
 - run: echo "FOO is ${{ steps.output-step.outputs.FOO }}"
 - run: echo "version is ${{ steps.output-step.outputs.VERSION }}"
 ```
+
+### Windows and MacOS runners
+
+This action is a Docker action, which currently can only run on Linux runners. To work around this,
+you can use the outputs from a Linux job in a Windows or MacOS job.
+
+```yaml
+jobs:
+  make-outputs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: spenserblack/actions-set-output@<commit-ish>
+        id: output-step
+        with:
+          variables: |
+            FO=BAR
+            VERSION=$(git describe --tags)
+  main-job:
+    runs-on: ${{ matrix.os }}
+    needs: [make-outputs]
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+    steps:
+      - run: echo "FOO is ${{ needs.make-outputs.FOO }}"
+      - run: echo "version is ${{ needs.make-outputs.VERSION }}"
+```
