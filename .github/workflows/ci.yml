@@ -9,6 +9,11 @@ on:
 jobs:
   test-ubuntu-latest:
     runs-on: ubuntu-latest
+    outputs:
+      FOO: ${{ steps.output-step.FOO }}
+      HELLO: ${{ steps.output-step.HELLO }}
+      QUOTES: ${{ steps.output-step.QUOTES }}
+      WORD_COUNT: ${{ steps.output-step.WORD_COUNT }}
 
     steps:
       - uses: actions/checkout@v2
