@@ -53,21 +53,21 @@ jobs:
     steps:
       - name: Check FOO
         run: |
-          echo "FOO is '${{ steps.output-step.outputs.FOO }}'"
+          echo "FOO is '${{ needs.test-ubuntu-latest.outputs.FOO }}'"
           exit 1
         if: ${{ steps.output-step.outputs.FOO != 'BAR' }}
       - name: Check HELLO
         run: |
-          echo "HELLO is '${{ steps.output-step.outputs.HELLO }}'"
+          echo "HELLO is '${{ needs.test-ubuntu-latest.outputs.HELLO }}'"
           exit 1
         if: ${{ steps.output-step.outputs.HELLO != 'WORLD' }}
       - name: Check QUOTES
         run: |
-          echo "QUOTES is '${{ steps.output-step.outputs.QUOTES }}'"
+          echo "QUOTES is '${{ needs.test-ubuntu-latest.outputs.QUOTES }}'"
           exit 1
         if: ${{ steps.output-step.outputs.QUOTES != 'quoted' }}
       - name: Check WORD_COUNT
         run: |
-          echo "WORD_COUNT is '${{ steps.output-step.outputs.WORD_COUNT }}'"
+          echo "WORD_COUNT is '${{ needs.test-ubuntu-latest.outputs.WORD_COUNT }}'"
           exit 1
         if: ${{ steps.output-step.outputs.WORD_COUNT != '2' }}
