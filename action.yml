@@ -4,8 +4,10 @@ branding:
   icon: list
   color: white
 runs:
-  using: node12
-  main: dist/index.js
+  using: docker
+  image: Dockerfile
+  args:
+    - ${{ inputs.variables }}
 inputs:
   variables:
     description: The variables that you want to define, separated by a newline
