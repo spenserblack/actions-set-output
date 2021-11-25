@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/spenserblack/actions-set-output/actions/workflows/ci.yml/badge.svg)](https://github.com/spenserblack/actions-set-output/actions/workflows/ci.yml)
 
+:warning: It is probably best to use the `::set-output` workflow command instead of using this action.
+
 I always forget how to set output in steps, so this is a helper action for setting outputs.
 There's probably several actions like this already.
 
